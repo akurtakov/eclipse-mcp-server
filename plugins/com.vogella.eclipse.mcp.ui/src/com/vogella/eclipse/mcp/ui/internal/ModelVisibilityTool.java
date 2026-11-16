@@ -37,7 +37,7 @@ public final class ModelVisibilityTool implements IMcpTool {
 
 	@Override
 	public String getDescription() {
-		return "Shows or hides an element of the e4 application model by its id, which is what reaches the things no other tool here can: the status line and other trim bars, the main menu, and one window out of several. CHANGES WHAT THE USER SEES AND IS REMEMBERED: unlike eclipse_set_ide_visibility, which only calls Shell.setVisible for the session, this writes the model, and the workbench saves the model on exit, so an element hidden here is still hidden after a restart and there is no menu entry to undo it with. Runs as a dry run unless dryRun is set to false, and the dry run lists what the id matches. Two flags exist and they are not the same: 'visible' takes the element out of the layout while the renderer keeps it, and 'toBeRendered' throws the widget away entirely, which is harder to reason about and is refused for a window. HIDING THE ONLY WINDOW THIS WAY IS A TRAP: it persists, so the IDE starts invisible next time; use eclipse_set_ide_visibility for that, which forgets."; //$NON-NLS-1$
+		return "Shows or hides an element of the e4 application model by its id, which is what reaches the things no other tool here can: the status line and other trim bars, the main menu, a view's menu and toolbar items, and one window out of several. CHANGES WHAT THE USER SEES AND IS REMEMBERED: unlike eclipse_set_ide_visibility, which only calls Shell.setVisible for the session, this writes the model, and the workbench saves the model on exit, so an element hidden here is still hidden after a restart and there is no menu entry to undo it with. Runs as a dry run unless dryRun is set to false, and the dry run lists what the id matches. Two flags exist and they are not the same: 'visible' takes the element out of the layout while the renderer keeps it, and 'toBeRendered' throws the widget away entirely, which is harder to reason about and is refused for a window. HIDING THE ONLY WINDOW THIS WAY IS A TRAP: it persists, so the IDE starts invisible next time; use eclipse_set_ide_visibility for that, which forgets."; //$NON-NLS-1$
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public final class ModelVisibilityTool implements IMcpTool {
 					.put("error", "This workbench exposes no e4 model service."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		List<MUIElement> found = modelService.findElements(application, elementId, MUIElement.class, null,
-				EModelService.ANYWHERE | EModelService.IN_MAIN_MENU | EModelService.IN_TRIM);
+				EModelService.ANYWHERE | EModelService.IN_MAIN_MENU | EModelService.IN_PART);
 		if (found.isEmpty()) {
 			return new JsonObject().put("ok", Boolean.FALSE) //$NON-NLS-1$
 					.put("error", //$NON-NLS-1$
